@@ -1,4 +1,3 @@
-
 from Program.CannonicalCollection import CannonicalCollection
 from Program.Item import Item
 from Program.ParsingTreeRow import ParsingTreeRow
@@ -10,12 +9,12 @@ from Program.Row import Row
 class LR:
 
     def __init__(self, grammar):
-         self.grammar = grammar
-         if grammar.isEnriched:
+        self.grammar = grammar
+        if grammar.isEnriched:
             self.workingGrammar = grammar
-         else:
+        else:
             self.workingGrammar = grammar.getEnrichedGrammar()
-         self.orderedProductions = self.workingGrammar.productionSet.getOrderedProducts()
+        self.orderedProductions = self.workingGrammar.productionSet.getOrderedProducts()
 
     def getDotPrecededNonTerminal(self, item):
         term = item.rhs.get(item.dotPosition)
@@ -24,9 +23,9 @@ class LR:
         return term
 
     def closure(self, item):
-         oldClosure = []
-         currentClosure = list(item)
-         while oldClosure != currentClosure:
+        oldClosure = []
+        currentClosure = [item]
+        while oldClosure != currentClosure:
             newClosure = currentClosure
             oldClosure = currentClosure
             for it in currentClosure:
@@ -35,8 +34,7 @@ class LR:
                     currentItem = Item(nonTerminal, production, 0)
                     newClosure.append(currentItem)
             currentClosure = newClosure
-         return State(currentClosure)
-
+        return State(currentClosure)
 
     def goTo(self, state, element):
         result = []
@@ -53,7 +51,7 @@ class LR:
             self.closure(
                 Item(
                     self.workingGrammar.startingSymbol,
-                    self.workingGrammar.productionSet.getProductionList[self.workingGrammar.startingSymbol][0],
+                    self.workingGrammar.productionSet.getProductionList()[self.workingGrammar.startingSymbol][0],
                     0
                 )
             )
@@ -88,7 +86,7 @@ class LR:
         remainingStack = []
         productionStack = []
         parsingTable = self.getParsingtable()
-#        workingStack.append(("$", 0))
+        #        workingStack.append(("$", 0))
         parsingTree = []
         treeStack = []
         currentIndex = 0
@@ -117,11 +115,5 @@ class LR:
                     lastIndex = lastElement.second
                 treeStack.append((productionIndexToReduceTo.first, parentIndex))
                 previous = workingStack.pop(-1)
-                workingStack.append((productionIndexToReduceTo.first, parsingTable.tableRow[previous.second].goTo[productionIndexToReduceTo.first]))
-
-
-
-
-
-
-
+                workingStack.append((productionIndexToReduceTo.first,
+                                     parsingTable.tableRow[previous.second].goTo[productionIndexToReduceTo.first]))

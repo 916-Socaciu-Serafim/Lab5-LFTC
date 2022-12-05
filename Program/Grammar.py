@@ -26,7 +26,6 @@ class Grammar:
             self.productionSet.addProduction(leftHandSide, rightHandSide)
         self.isEnriched = False
 
-
     def getEnrichedGrammar(self):
         if not self.isEnriched:
             newGrammar = Grammar(self.fileName)
@@ -38,3 +37,7 @@ class Grammar:
             newGrammar.nonTerminals.append("S'")
             newGrammar.productionSet.addProduction("S'", list(self.startingSymbol))
             return newGrammar
+
+    def check_CFG(self):
+        prod = self.productionSet.getProductionList()
+        return all(len(k) == 1 for k in prod.keys())

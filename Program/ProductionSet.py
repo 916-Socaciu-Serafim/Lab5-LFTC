@@ -19,3 +19,5 @@ class ProductionSet:
         for key in self.productions.keys():
             for value in self.productions.get(key):
                 productList.append((self.productions.get(key)[0], value))
+
+        return productList

@@ -1,3 +1,4 @@
+from Program import State
 
 
 class CannonicalCollection:
@@ -8,3 +9,6 @@ class CannonicalCollection:
 
     def connectState(self, indexFirstState, symbol, indexSecondState):
         self.adjacencyList[(indexFirstState, symbol)] = indexSecondState
+
+    def addState(self, state: State):
+        self.states.append(state)
